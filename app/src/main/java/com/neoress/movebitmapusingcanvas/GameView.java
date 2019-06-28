@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,7 +31,10 @@ public class GameView extends View {
                     posY >= 0 && posY < getHeight() - bitmap.getHeight()) {
                     x = posX;
                     y = posY;
+
+                    BeFine();
                 }
+
                 // redraw
                 invalidate();
                 break;
@@ -44,7 +46,12 @@ public class GameView extends View {
                         posY >= 0 && posY < getHeight() - bitmap.getHeight()) {
                     x = posX;
                     y = posY;
+
+                    BeFine();
+                } else {
+                    FeelAngry();
                 }
+
                 // redraw
                 invalidate();
                 break;
@@ -57,5 +64,27 @@ public class GameView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(bitmap, x, y, null);
+    }
+
+    private Bitmap getBitmap(String status) {
+        int resourceID;
+        switch (status) {
+            case "angry":
+                resourceID = R.drawable.ic_angry;
+                break;
+            default:
+                resourceID = R.drawable.ic_happy;
+                break;
+        }
+
+        return BitmapFactory.decodeResource(this.getResources(), resourceID);
+    }
+
+    private void FeelAngry() {
+        bitmap = getBitmap("angry");
+    }
+
+    private void BeFine() {
+        bitmap = getBitmap("happy");
     }
 }
